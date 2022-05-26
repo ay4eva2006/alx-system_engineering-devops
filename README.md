@@ -1,1 +1,1 @@
-shell basic navigation
+print username of current user
