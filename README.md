@@ -1,1 +1,1 @@
-print username of current user
+root
