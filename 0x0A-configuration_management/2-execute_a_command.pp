@@ -1,6 +1,7 @@
-{ 'killmenow':
+# kill process killmenow
+
+exec { 'pkill':
   command => 'pkill killmenow',
-  path    => '/bin:/usr/bin',
-  onlyif  => 'pgrep killmenow',
+  provider=> 'shell'
 }
 
