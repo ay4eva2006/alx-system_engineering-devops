@@ -1,0 +1,6 @@
+Host 64154-web-01
+    HostName 34.203.38.64
+    User ubuntu
+    IdentityFile ~/.ssh/school
+    PasswordAuthentication no
+i
