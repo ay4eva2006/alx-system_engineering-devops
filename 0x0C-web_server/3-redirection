@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Install Nginx web server if it is not installed
 if ! command -v nginx &> /dev/null
