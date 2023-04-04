@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Install Nginx web server if it is not installed
+if ! command -v nginx &> /dev/null
+then
+    echo "Nginx is not installed. Installing it now..."
+    sudo apt update
+    sudo apt install nginx -y
+fi
+
+# Create a new server block for redirection
+sudo tee /etc/nginx/sites-available/redirect_me > /dev/null <<EOF
+server {
+    listen 80;
+    server_name holb2023gjwdqj.tech;
+
+    return 301 https://www.youtube.com$request_uri;
+}
+EOF
+
+# Enable the new server block
+sudo ln -s /etc/nginx/sites-available/redirect_me /etc/nginx/sites-enabled/
+
+# Remove the default Nginx server block
+sudo rm /etc/nginx/sites-enabled/default
+
+# Restart Nginx
+sudo systemctl restart nginx
+
