@@ -1,34 +1,10 @@
-# Install Nginx package
-package { 'nginx':
-  ensure => installed,
-}
+# Install Nginx web server (w/ Puppet)
 
-# Configure Nginx server
-file { '/etc/nginx/sites-available/default':
-  content => template('nginx/default.erb'),
-  notify  => Service['nginx'],
+exec {'install':
+  provider => shell,
+  command  => 'sudo apt-get -y update ; 
+                sudo apt-get -y install nginx ; 
+                echo "Hello World!" | sudo tee /var/www/html/index.nginx-debian.html ; 
+                sudo sed -i "s/server_name _;/server_name _;\n\trewrite ^\/redirect_me https:\/\/github.com\/OluwaninsolaAO permanent;/" /etc/nginx/sites-available/default ; 
+                sudo service nginx start',
 }
-
-# Configure Nginx default page
-file { '/var/www/html/index.html':
-  content => 'Hello World!',
-}
-
-# Redirect /redirect_me to another page using a 301 redirect
-nginx::resource::server { 'default':
-  listen_port => 80,
-  server_name => 'localhost',
-  locations   => {
-    '/redirect_me' => {
-      ensure       => present,
-      www_redirect => 'permanent',
-      rewrite_to   => 'https://www.example.com',
-    },
-  },
-}
-
-# Ensure Nginx service is running
-service { 'nginx':
-  ensure => running,
-}
-

@@ -1,29 +1,25 @@
 #!/usr/bin/env bash
-# Install Nginx web server if it is not installed
+# Redirection with nginx
 
-if ! command -v nginx &> /dev/null
-then
-    echo "Nginx is not installed. Installing it now..."
-    sudo apt update
-    sudo apt install nginx -y
-fi
+sudo apt-get update
+sudo apt-get -y install nginx
 
-# Create a new server block for redirection
-sudo tee /etc/nginx/sites-available/redirect_me > /dev/null <<EOF
-server {
-    listen 80;
-    server_name holb2023gjwdqj.tech;
+echo "Hello World!" | sudo tee /var/www/html/index.html
 
-    return 301 https://www.youtube.com\$request_uri;
-}
-EOF
+SERVER_CONFIG=\
+"server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+	root /var/www/html;
+	index index.html index.htm index.nginx-debian.html;
+	server_name _;
+	location / {
+		try_files \$uri \$uri/ =404;
+	}
+	if (\$request_filename ~ redirect_me){
+		rewrite ^ https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;
+	}
+}"
 
-# Enable the new server block
-sudo ln -s /etc/nginx/sites-available/redirect_me /etc/nginx/sites-enabled/
-
-# Remove the default Nginx server block
-sudo rm /etc/nginx/sites-enabled/default
-
-# Restart Nginx
-sudo systemctl restart nginx
-
+bash -c "echo -e '$SERVER_CONFIG' > /etc/nginx/sites-enabled/default"
+sudo /etc/init.d/nginx restart
