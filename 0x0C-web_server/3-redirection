@@ -14,7 +14,7 @@ server {
     listen 80;
     server_name holb2023gjwdqj.tech;
 
-    return 301 https://www.youtube.com$request_uri;
+    return 301 https://www.youtube.com\$request_uri;
 }
 EOF
 
