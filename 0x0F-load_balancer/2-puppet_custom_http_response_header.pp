@@ -1,4 +1,5 @@
-nstalls a Nginx server with custome HTTP header
+#installs a Nginx server with custome HTTP header
+include stdlib
 
 exec {'update':
   provider => shell,
