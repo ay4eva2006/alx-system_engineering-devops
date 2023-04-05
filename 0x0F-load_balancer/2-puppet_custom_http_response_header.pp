@@ -1,4 +1,5 @@
 #installs a Nginx server with custome HTTP header
+
 include stdlib
 
 exec {'update':
