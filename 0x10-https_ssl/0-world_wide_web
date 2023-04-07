@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+function audit_subdomain {
+  domain=$1
+  subdomain=$2
+
+  if [[ -z $subdomain ]]; then
+    subdomains=("www" "lb-01" "web-01" "web-02")
+  else
+    subdomains=("$subdomain")
+  fi
+
+  for sub in "${subdomains[@]}"
+  do
+    dest=$(dig +short $sub.$domain)
+    type=$(dig $sub.$domain | awk '/^;; ANSWER SECTION:$/ { getline; print $4 }')
+
+    echo "The subdomain $sub is a $type record and points to $dest"
+  done
+}
+
+audit_subdomain "$@"
