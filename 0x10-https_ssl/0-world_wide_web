@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 #Configure your domain zone
+#Bash script to display information about the subdomains.
 function audit_subdomain {
   domain=$1
   subdomain=$2
