@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+#Configure your domain zone
 function audit_subdomain {
   domain=$1
   subdomain=$2
