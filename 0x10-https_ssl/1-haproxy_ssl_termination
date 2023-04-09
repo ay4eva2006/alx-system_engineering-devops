@@ -43,7 +43,7 @@ frontend http
         default_backend web-backend
 
 frontend www-https
-        bind *:443 ssl crt /etc/haproxy/ssl/www.luisch.tech.pem
+        bind *:443 ssl crt /etc/haproxy/ssl/www.holb2023gjwdqj.tech.pem
         http-request set-header X-Forwarded-Proto https
         default_backend web-backend
 
