@@ -1,11 +1,13 @@
 #:wqsky is the limit, let's bring that limit higher
+# Fix problem of high amount of requests
 
-exec { 'increase-ulimit':
-  command => 'sed -i "s/15/4096/" /etc/default/nginx',
-  path    => ['/usr/local/bin/', '/bin/'],
+exec {'replace':
+  provider => shell,
+  command  => 'sudo sed -i "s/ULIMIT=\"-n 15\"/ULIMIT=\"-n 4096\"/" /etc/default/nginx',
+  before   => Exec['restart'],
 }
 
-exec { 'restart-nginx':
-  command => 'nginx restart',
-  path    => ['/etc/init.d/'],
-}
+exec {'restart':
+  provider => shell,
+  command  => 'sudo service nginx restart',
+}}
